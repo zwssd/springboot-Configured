@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Iterator;
 import java.util.List;
@@ -37,18 +39,22 @@ public class DbController {
     }
 
     @RequestMapping("/user/{id}")
-    public Map<String,Object> getUser(@PathVariable String id){
+    public ModelAndView getUser(@PathVariable String id,Model model){
         Map<String,Object> map = null;
 
         List<Map<String, Object>> list = getDbType();
 
         for (Map<String, Object> dbmap : list) {
-
+        	
             Set<String> set = dbmap.keySet();
+            
 
             for (String key : set) {
                 if(key.equals("id")){
-                    if(dbmap.get(key).equals(id)){
+            //System.out.println("dbmap.get(key)========="+dbmap.get(key).toString());
+            //System.out.println("id========="+id);
+                    if(dbmap.get(key).toString().equals(id)){
+            System.out.println("id>>>>>========="+id);
                         map = dbmap;
                     }
                 }
@@ -56,8 +62,12 @@ public class DbController {
         }
 
         if(map==null)
-            map = list.get(0);
-        return map;
+            map = list.get(1);
+        
+        model.addAttribute("title", "abcdeffffffffffzzzzzz");
+        model.addAttribute("user", map);
+        return new ModelAndView("user", "aa", model);
+        //return map;
     }
 
 
