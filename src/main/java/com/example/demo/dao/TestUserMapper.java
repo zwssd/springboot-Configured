@@ -1,7 +1,12 @@
 package com.example.demo.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
 import com.example.demo.model.TestUser;
 
+@Mapper
 public interface TestUserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +19,6 @@ public interface TestUserMapper {
     int updateByPrimaryKeySelective(TestUser record);
 
     int updateByPrimaryKey(TestUser record);
+
+	List<TestUser> selectAllInfo();
 }
